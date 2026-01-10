@@ -26,24 +26,38 @@ class FibonacciHeap {
     }
 
     extractMin(): number | null {
+        if (!this.min) return null;
+
+        const minNode = this.min;
         const degreeArray = new Array<Node | undefined>(
             Math.floor(Math.log2(this.size)) + 2,
         );
-        const minNode = this.min;
-        if (!this.min) return null;
-        for (let node of this.min?.children) {
+        const childrenArray = minNode.children.toArray();
+        for (let node of childrenArray) {
             node.parent = null;
+            node.marked = false;
             this.rootTree.append(node);
         }
-        this.rootTree.remove(this.min);
+
+        this.rootTree.remove(minNode);
         this.size--;
+
+        if (this.size === 0) {
+            this.min = null;
+            return minNode.value;
+        }
+
         const tempSpace = this.rootTree.toArray();
         this.rootTree.clear();
+
         for (let currentNode of tempSpace) {
-            let nodeAlreadyThere = degreeArray[currentNode.degree];
-            while (nodeAlreadyThere) {
-                let parentNode;
-                let childNode;
+            let degree = currentNode.degree;
+            let nodeAlreadyThere = degreeArray[degree];
+
+            while (nodeAlreadyThere !== undefined) {
+                let parentNode: Node;
+                let childNode: Node;
+
                 if (nodeAlreadyThere.value < currentNode.value) {
                     parentNode = nodeAlreadyThere;
                     childNode = currentNode;
@@ -51,28 +65,34 @@ class FibonacciHeap {
                     parentNode = currentNode;
                     childNode = nodeAlreadyThere;
                 }
+
                 parentNode.children.append(childNode);
-                parentNode.degree++;
                 childNode.parent = parentNode;
-                degreeArray[currentNode.degree] = undefined;
+                childNode.marked = false;
+                parentNode.degree++;
+
+                degreeArray[degree] = undefined;
+                degree++;
                 currentNode = parentNode;
-                nodeAlreadyThere = degreeArray[currentNode.degree];
+                nodeAlreadyThere = degreeArray[degree];
             }
-            if (!nodeAlreadyThere) {
-                degreeArray[currentNode.degree] = currentNode;
-            }
+
+            degreeArray[degree] = currentNode;
         }
-        let tempMinNode: Node | null = null;
+
+        let newMin: Node | null = null;
         for (let node of degreeArray) {
             if (node !== undefined) {
+                node.parent = null;
                 this.rootTree.append(node);
-                if (!tempMinNode || node.value < tempMinNode.value) {
-                    tempMinNode = node;
+                if (newMin === null || node.value < newMin.value) {
+                    newMin = node;
                 }
             }
         }
-        this.min = tempMinNode;
-        return minNode?.value ?? null;
+
+        this.min = newMin;
+        return minNode.value;
     }
 
     getMin(): number | null {
@@ -117,3 +137,5 @@ class FibonacciHeap {
         }
     }
 }
+
+export default FibonacciHeap;
