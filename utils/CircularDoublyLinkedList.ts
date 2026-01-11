@@ -131,4 +131,4 @@ export default class CircularDoublyLinkedList<T> {
     }
 }
 
-//https://chatgpt.com/c/69610f04-49dc-8327-8820-f0271933b02a
+//https://chatgpt.com/share/69641fad-8b48-8010-96c7-28d4f2170114

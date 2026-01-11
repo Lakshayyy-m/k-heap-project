@@ -63,3 +63,13 @@ npx tsx test_runtime.ts
 - `fibonacciHeap.ts` - Main Fibonacci Heap implementation
 - `utils/CircularDoublyLinkedList.ts` - Helper data structure for managing heap nodes
 - `test_runtime.ts` - Performance benchmarks
+
+## To run the program locally
+1. Clone the repository
+2. You need Node.js installed on your machine. 
+3. If you have typescript installed globally, run: `tsc fibonacciHeap.ts test_runtime.ts utils/CircularDoublyLinkedList.ts` to get the JavaScript files. Then run `node fibonacciHeap.js`
+4. If you don't have typescript installed globally, run: `npx tsx fibonacciHeap.ts`
+
+## References 
+- Double Linked List implementation from AI (used since this is a utility class and the main implementation is the fibonacci heap) - https://chatgpt.com/share/69641fad-8b48-8010-96c7-28d4f2170114
+- Fibonacci Heap concept - https://www.youtube.com/watch?v=6JxvKfSV9Ns
