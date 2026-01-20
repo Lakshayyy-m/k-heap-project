@@ -40,17 +40,20 @@ class KHeap:
         return root
 
     def pushpop(self, x):
+        global comparison_count  # Add this!
+        
         if not self._a:
             return x
         
         root = self._a[0]
 
+        comparison_count += 1  # Count this comparison!
         if self._better(root, x):
             self._a[0] = x
             self._sift_down(0)
             return root
         
-        return x 
+        return x
     
     def replace(self, x):
         if not self._a:
@@ -100,7 +103,8 @@ class KHeap:
                     best = c
 
             comparison_count += 1
-            if self._better(newitem, self._a[best]) or newitem == self._a[best]:
+
+            if not self._better(self._a[best], newitem):
                 break
 
             self._a[idx] = self._a[best]

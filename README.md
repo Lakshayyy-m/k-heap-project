@@ -4,32 +4,37 @@ A TypeScript implementation of a Fibonacci Heap data structure with efficient am
 
 ## Operations & Time Complexity
 
-| Operation | Time Complexity | Description |
-|-----------|----------------|-------------|
-| `insert(value)` | O(1) amortized | Insert a new value into the heap |
-| `getMin()` | O(1) | Get the minimum value without removing it |
-| `extractMin()` | O(log n) amortized | Remove and return the minimum value |
-| `decreaseKey(node, newValue)` | O(1) amortized | Decrease the value of a given node |
+| Operation                     | Time Complexity    | Description                               |
+| ----------------------------- | ------------------ | ----------------------------------------- |
+| `insert(value)`               | O(1) amortized     | Insert a new value into the heap          |
+| `getMin()`                    | O(1)               | Get the minimum value without removing it |
+| `extractMin()`                | O(log n) amortized | Remove and return the minimum value       |
+| `decreaseKey(node, newValue)` | O(1) amortized     | Decrease the value of a given node        |
 
 ## Runtime Test Results
 
 ### Test 1: INSERT - O(1) amortized
+
 - 10,000 inserts: **3.43ms**
 - Average per insert: **0.0003ms**
 
 ### Test 2: GET MIN - O(1)
+
 - 100,000 getMin calls: **0.61ms**
 - Average per call: **0.000006ms**
 
 ### Test 3: EXTRACT MIN - O(log n) amortized
+
 - 1,000 extractMin operations: **10.91ms**
 - Average per extract: **0.0109ms**
 
 ### Test 4: DECREASE KEY - O(1) amortized
+
 - 100 decreaseKey operations: **0.13ms**
 - Average per decrease: **0.0013ms**
 
 ### Test 5: MIXED OPERATIONS
+
 - 1,000 inserts + 100 extracts + 200 getMins: **1.61ms**
 
 ## Usage
@@ -65,11 +70,34 @@ npx tsx test_runtime.ts
 - `test_runtime.ts` - Performance benchmarks
 
 ## To run the program locally
+
 1. Clone the repository
-2. You need Node.js installed on your machine. 
+2. You need Node.js installed on your machine.
 3. If you have typescript installed globally, run: `tsc fibonacciHeap.ts test_runtime.ts utils/CircularDoublyLinkedList.ts` to get the JavaScript files. Then run `node fibonacciHeap.js`
 4. If you don't have typescript installed globally, run: `npx tsx fibonacciHeap.ts`
 
-## References 
+## Python K-Heap (k-ary heap)
+
+A Python k-ary heap implementation. This abstract data type is based in part on python heapq algorithm, but supports up to k children for each non-leaf node. The heap is constructed as a min-heap by default, but additionally supports max-heap. The test.py file uses the matplotlib library to plot the number of comparisons in each function against their theoretical efficiency.
+
+## Operations & Time Complexity
+
+| Operation     | Time Complexity (comparisons)   | Notes                                           |
+| ------------- | ------------------------------- | ----------------------------------------------- |
+| push(x)       | O(log_k n)                      | Sift-up; tree height ≈ log_k(n)                 |
+| pop()         | O(k · log_k n)                  | Sift-down; each level examines up to k children |
+| peek()        | O(1)                            | Return root without modification                |
+| heapify(data) | O(n)                            | Bottom-up construction (in-place)               |
+| pushpop(x)    | O(1) best, O(k · log_k n) worst | Combines push and pop without full reheapify    |
+| replace(x)    | O(k · log_k n)                  | Replace root then sift-down                     |
+
+Notes
+
+- log_k(n) = log(n) / log(k). Increasing k reduces height but increases per-level child checks
+- We use a simple comparison count to measure the efficiency of our heap functions.
+
+## References
+
 - Double Linked List implementation from AI (used since this is a utility class and the main implementation is the fibonacci heap) - https://chatgpt.com/share/69641fad-8b48-8010-96c7-28d4f2170114
 - Fibonacci Heap concept - https://www.youtube.com/watch?v=6JxvKfSV9Ns
+- Python heapq - https://github.com/python/cpython/blob/3.14/Lib/heapq.py
